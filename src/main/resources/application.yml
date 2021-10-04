@@ -1,0 +1,6 @@
+#logging:
+#  level:
+#    root: "warn"
+#    com.findstar.springbootlearn: "trace"
+#  file:
+#    name: "./log/spring-boot-learn.log"
