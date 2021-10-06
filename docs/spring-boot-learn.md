@@ -465,3 +465,42 @@ public class User {
     }
 ```
 
+
+
+## Mybatis-spring-boot
+
+参考文档：http://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/
+
+依赖:
+
+```xml
+ <!-- mybatis -->
+<dependency>
+    <groupId>org.mybatis.spring.boot</groupId>
+    <artifactId>mybatis-spring-boot-starter</artifactId>
+    <version>2.2.0</version>
+</dependency>
+```
+
+
+
+
+
+
+
+
+
+## SHARDING-JDBC
+
+参考文档：https://shardingsphere.apache.org/document/legacy/4.x/document/cn/quick-start/sharding-jdbc-quick-start/
+
+### 依赖
+
+```xml
+<dependency>
+    <groupId>org.apache.shardingsphere</groupId>
+    <artifactId>sharding-jdbc-core</artifactId>
+    <version>${latest.release.version}</version>
+</dependency>
+```
+
