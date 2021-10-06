@@ -247,5 +247,221 @@ logging:
 
 
 
+## Swagger 3.0
 
+官方网址：https://swagger.io/
+
+地址：http://localhost:8080/swagger-ui/index.html
+
+![img](/Users/wangjunjie/Projects/java-learn/spring-boot-learn/docs/photo/be8cb2924aaeb685d5d5a45796dc3b1d.png)
+
+### 依赖：
+
+```xml
+ <!-- SpringBoot整合springfox-swagger3 -->
+<dependency>
+    <groupId>io.springfox</groupId>
+    <artifactId>springfox-boot-starter</artifactId>
+    <version>3.0.0</version>
+</dependency>
+```
+
+### swagger代码配置：
+
+```java
+@Component
+@EnableOpenApi
+public class SwaggerConfig {
+
+    @Bean
+    public Docket createRestApi() {
+        //返回文档摘要信息
+        return new Docket(DocumentationType.OAS_30)
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.findstar.springbootlearn.controller"))
+                .build();
+    }
+
+    //生成接口信息，包括标题、联系人等
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("Spring Boot Learn")
+                .description("SpringBoot学习项目")
+                .contact(new Contact("findStar", "", "wangjunjiestar@gmail.com"))
+                .version("1.0")
+                .build();
+    }
+
+}
+```
+
+### Swagger常用注解
+
+#### @Api：
+
+用在请求的类上，表示对类的说明
+
+​	tags："说明该类的作用，可以在UI界面上看到的注解"
+​	
+
+​	value："该参数没什么意义，在UI界面上也看到，所以不需要配置"
+
+Eg:
+
+```java
+@Api(tags = "用户信息管理")
+@RestController
+@RequestMapping("userRecord")
+public class UserRecordController extends ApiController {
+    //...
+}
+```
+
+
+
+#### @ApiOperation
+
+用在请求的方法上，说明方法的用途、作用
+
+​	value："说明方法的用途、作用"
+
+​    notes："方法的备注说明"
+
+eg:
+
+```java
+		/**
+     * 分页查询所有数据
+     * @param page       分页对象
+     * @param userRecord 查询实体
+     * @return 所有数据
+     */
+    @ApiOperation("分页查询所有数据")
+    @GetMapping("page")
+    public R selectAll(Page<UserRecord> page, UserRecord userRecord) {
+        return success(this.userRecordService.page(page, new QueryWrapper<>(userRecord)));
+    }
+```
+
+
+
+#### @ApiImplicitParams：
+
+用在请求的方法上，表示一组参数说明
+
+​	@ApiImplicitParam：用在@ApiImplicitParams注解中，指定一个请求参数的各个方面
+
+​		name：参数名
+
+​		value：参数的汉字说明、解释
+
+​		required：参数是否必须传
+
+​		paramType：参数放在哪个地方
+
+​			header --> 请求参数的获取：@RequestHeader
+
+​			query --> 请求参数的获取：@RequestParam
+
+​			path（用于restful接口）--> 请求参数的获取：@PathVariable
+
+​			div（不常用）
+
+​			form（不常用）   
+
+​	dataType(不建议使用)：参数类型，默认String，其它值dataType="Integer"     
+
+​	dataTypeClass（建议使用）: 参数类型，通过class制定，建议使用这种方式指定
+
+​	defaultValue：参数的默认值
+
+Eg:
+
+```java
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "managerName", value = "管理账号名", defaultValue = "root", 
+                          required = true, paramType = "header", dataTypeClass = String.class),
+        @ApiImplicitParam(name = "managerToken", value = "token", defaultValue = "123", 
+                          required = true, paramType = "header", dataTypeClass = String.class)
+    })
+    @PostMapping("/insert")
+    public SimpleResponse<String> insert(@RequestBody User user) throws JsonProcessingException {
+
+        log.info("insert user: {}", mapper.writeValueAsString(user));
+
+        return SimpleResponse.<String>builder().code(1).data("OK").build();
+    }
+```
+
+
+
+#### @ApiResponses：
+
+​	用在请求的方法上，表示一组响应
+
+​	@ApiResponse：用在@ApiResponses中，描述http错的code
+
+​		code：数字，例如200
+
+​		message：信息，例如"用户信息插入成功"
+
+Eg:
+
+```java
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "插入成功")
+    })
+    @PostMapping("/insert")
+    public SimpleResponse<String> insert(@RequestBody User user) throws JsonProcessingException {
+
+        log.info("insert user: {}", mapper.writeValueAsString(user));
+
+        return SimpleResponse.<String>builder().code(1).data("OK").build();
+    }
+```
+
+
+
+#### @ApiModel：
+
+用于Vo类上，描述类的信息，会在ui页面上显示出来
+
+#### @ApiModelProperty：
+
+用在属性上，描述VO类具体属性
+
+Eg:
+
+```java
+@ApiModel("用户信息")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class User {
+    @ApiModelProperty("用户名")
+    private String name;
+    @ApiModelProperty("家乡")
+    private String hometown;
+}
+```
+
+![截屏2021-10-06 下午6.25.21](/Users/wangjunjie/Projects/java-learn/spring-boot-learn/docs/photo/截屏2021-10-06 下午6.25.21.png)
+
+
+
+#### @ApiIgnore
+
+用在请求参数或者方法上，使用该注解忽略这个API或者某个请求参数
+
+```java
+	@GetMapping("/select")
+    public SimpleResponse<User> selectByName(@RequestParam("name") String name, @RequestParam("sex") Sex sex,
+                                             @ApiIgnore("无用的参数") @RequestAttribute("unused_params") String unUsedParams) {
+        log.info("select name: {}, Sex: {}", name, sex.getDecs());
+        User user = User.builder().name(name).hometown("i don't known").build();
+        return SimpleResponse.<User>builder().code(1).data(user).build();
+    }
+```
 

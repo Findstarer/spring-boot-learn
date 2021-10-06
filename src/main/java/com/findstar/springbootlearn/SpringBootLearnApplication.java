@@ -10,11 +10,6 @@ public class SpringBootLearnApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SpringBootLearnApplication.class, args);
-        log.error("error");
-        log.warn("warn");
-        log.info("info");
-        log.debug("debug");
-        log.trace("trace");
     }
 
 
