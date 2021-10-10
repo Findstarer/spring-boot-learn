@@ -4,3 +4,17 @@
 #    com.findstar.springbootlearn: "trace"
 #  file:
 #    name: "./log/spring-boot-learn.log"
+
+
+spring:
+#  配置数据源
+  datasource:
+    url: jdbc:mysql://localhost:3306/ds_0?useUnicode=true&characterEncoding=utf8
+    username: program
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  configuration:
+#    开启驼峰转换
+    map-underscore-to-camel-case: true

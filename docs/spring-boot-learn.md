@@ -474,7 +474,13 @@ public class User {
 依赖:
 
 ```xml
- <!-- mybatis -->
+<!--mysql-->
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+</dependency> 
+
+<!-- mybatis -->
 <dependency>
     <groupId>org.mybatis.spring.boot</groupId>
     <artifactId>mybatis-spring-boot-starter</artifactId>
@@ -482,9 +488,52 @@ public class User {
 </dependency>
 ```
 
+Spring-boot配置
 
+```yaml
+spring:
+#  配置数据源
+  datasource:
+    url: jdbc:mysql://localhost:3306/ds_0?useUnicode=true&characterEncoding=utf8
+    username: program
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
+mybatis:
+  configuration:
+#    开启驼峰转换
+    map-underscore-to-camel-case: true
+```
 
+编写Mapper文件
+
+```java
+//使用@Mapper指定该类为映射类
+@Mapper
+public interface UserMapper {
+
+    @Insert("INSERT INTO `users` (`name`, `sex`, `hometown`) " +
+            "VALUES(#{name}, #{sex}, #{hometown})")
+    // 实现id字段回填
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    boolean insert(User user);
+
+    @Select("SELECT * FROM `users`")
+    List<User> getAll();
+
+    @Select("SELECT * FROM users where name = #{name}")
+    List<User> getUserByName(String name);
+
+    @Update("UPDATE users SET hometown=#{hometown} WHERE name=#{name} AND sex=#{sex}")
+    boolean update(User user);
+
+    @Delete("DELETE FROM users WHERE name=#{name} AND sex=#{sex}")
+    boolean delete(String name, Sex sex);
+
+}
+```
+
+mybatis无需在主程序上配置@MapperScan()
 
 
 

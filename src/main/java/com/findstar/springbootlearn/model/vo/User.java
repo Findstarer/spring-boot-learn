@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
+    private int id;
     @ApiModelProperty("用户名")
     private String name;
     @ApiModelProperty("性别")
