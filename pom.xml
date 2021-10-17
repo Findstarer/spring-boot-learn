@@ -52,12 +52,42 @@
             <version>8.0.26</version>
         </dependency>
 
-        <!-- mybatis -->
+        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
         <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>2.2.0</version>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>23.0</version>
         </dependency>
+
+
+        <!--&lt;!&ndash; mybatis &ndash;&gt;-->
+        <!--<dependency>-->
+        <!--    <groupId>org.mybatis.spring.boot</groupId>-->
+        <!--    <artifactId>mybatis-spring-boot-starter</artifactId>-->
+        <!--    <version>2.2.0</version>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+
+        <!--&lt;!&ndash;&lt;!&ndash;sharding-jdbc&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.shardingsphere/sharding-jdbc-spring-boot-starter &ndash;&gt;&ndash;&gt;-->
+        <!--<dependency>-->
+        <!--    <groupId>org.apache.shardingsphere</groupId>-->
+        <!--    <artifactId>sharding-jdbc-spring-boot-starter</artifactId>-->
+        <!--    <version>4.1.1</version>-->
+        <!--</dependency>-->
+
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter &ndash;&gt;-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.2.8</version>
+        </dependency>
+
     </dependencies>
 
     <build>

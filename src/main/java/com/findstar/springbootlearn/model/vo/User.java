@@ -1,5 +1,7 @@
 package com.findstar.springbootlearn.model.vo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.findstar.springbootlearn.contant.Sex;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -17,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@TableName(value = "users")
 public class User {
     private int id;
     @ApiModelProperty("用户名")
@@ -25,4 +28,9 @@ public class User {
     private Sex sex;
     @ApiModelProperty("家乡")
     private String hometown;
+    @TableField("is_vip")
+    @ApiModelProperty("是否为VIP")
+    private boolean isVIP;
+
+
 }

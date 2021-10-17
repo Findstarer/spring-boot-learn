@@ -553,3 +553,12 @@ mybatis无需在主程序上配置@MapperScan()
 </dependency>
 ```
 
+
+
+
+
+## Mybatis-plus
+
+参考链接：https://baomidou.com/guide/wrapper.html#select
+
+https://juejin.cn/post/6961721367846715428

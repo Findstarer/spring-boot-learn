@@ -1,20 +1,73 @@
-#logging:
-#  level:
-#    root: "warn"
-#    com.findstar.springbootlearn: "trace"
-#  file:
-#    name: "./log/spring-boot-learn.log"
 
 
 spring:
-#  配置数据源
+  #  配置数据源
   datasource:
     url: jdbc:mysql://localhost:3306/ds_0?useUnicode=true&characterEncoding=utf8
     username: program
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+#  shardingsphere:
+#    datasource:
+#      names: master
+#      master:
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        type: com.alibaba.druid.pool.DruidDataSource
+#        url: jdbc:mysql://localhost:3306/ds_0?useUnicode=true&characterEncoding=utf8
+#        username: program
+#        password: 123456
+#    props:
+#      sql:
+#        show: true
+#    sharding:
+#      tables:
+#        users:
+#          actual-data-nodes: master.users_$->{0..1}
+#          table-strategy:
+#            inline:
+##              sharding-column: name
+##              precise-algorithm-class-name: com.findstar.springbootlearn.algorithm.UserTableShardingAlgorithm
+#              sharding-column: id
+#              # 简单的表达式
+#              algorithm-expression: users$->{id.longValue() % 2}
+
+
+#sharding:
+#  jdbc:
+#    datasource:
+#      names: master
+#      master:
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        type: com.alibaba.druid.pool.DruidDataSource
+#        url: jdbc:mysql://localhost:3306/ds_0?useUnicode=true&characterEncoding=utf8
+#        username: program
+#        password: 123456
+#      props:
+#        sql:
+#          show: true
+#      sharding:
+#        tables:
+#          users:
+#            actual-data-nodes: master.users$->{0..1}
+#            table-strategy:
+#              inline:
+#                sharding-column: name
+#                # 简单的表达式
+#                algorithm-expression: users$->{name.hashCode() % 2}
 
 mybatis:
   configuration:
-#    开启驼峰转换
+    #    开启驼峰转换
     map-underscore-to-camel-case: true
+
+mybatis-plus:
+  type-enums-package: com.findstar.springbootlearn.contant
+  configuration:
+    #    指定枚举类转换器
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+    # 开启SQL语句打印
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+

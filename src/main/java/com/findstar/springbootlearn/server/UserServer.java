@@ -1,12 +1,14 @@
 package com.findstar.springbootlearn.server;
 
+import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper;
 import com.findstar.springbootlearn.contant.Sex;
 import com.findstar.springbootlearn.mapper.UserMapper;
 import com.findstar.springbootlearn.model.vo.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.google.common.collect.ImmutableMap;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author : findStar
@@ -22,22 +24,27 @@ public class UserServer {
     }
 
     public boolean insert(User user) {
-        return userMapper.insert(user);
+        return userMapper.insert(user) > 0;
     }
 
     public List<User> getAll() {
-        return userMapper.getAll();
+        return userMapper.selectList(null);
     }
 
     public List<User> getUserByName(String name) {
-        return userMapper.getUserByName(name);
+        Map<String, Object> map = ImmutableMap.of("name", name);
+        return userMapper.selectByMap(map);
     }
 
-    public boolean update(User user) {
-        return userMapper.update(user);
+    public boolean updateHometown(User user) {
+        LambdaUpdateChainWrapper<User> wrapper = new LambdaUpdateChainWrapper<>(userMapper);
+        wrapper.like(User::getName, user.getName()).eq(User::getSex, user.getSex());
+        wrapper.set(User::getHometown, user.getHometown());
+        return wrapper.update();
     }
 
     public boolean delete(String name, Sex sex) {
-        return userMapper.delete(name, sex);
+        ImmutableMap<String, Object> map = ImmutableMap.of("name", name, "sex", sex);
+        return userMapper.deleteByMap(map) > 0;
     }
 }

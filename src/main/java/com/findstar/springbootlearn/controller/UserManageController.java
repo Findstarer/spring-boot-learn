@@ -50,9 +50,9 @@ public class UserManageController {
         return SimpleResponse.<List<User>>builder().code(1).data(users).build();
     }
 
-    @PutMapping("/update")
-    public SimpleResponse<Boolean> update(@RequestBody User user) {
-        boolean update = userServer.update(user);
+    @PutMapping("/update/hometown")
+    public SimpleResponse<Boolean> updateHometown(@RequestBody User user) {
+        boolean update = userServer.updateHometown(user);
         return SimpleResponse.<Boolean>builder().code(1).data(update).build();
     }
 
