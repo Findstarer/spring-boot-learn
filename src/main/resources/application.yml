@@ -70,4 +70,11 @@ mybatis-plus:
     # 开启SQL语句打印
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
+# 增加uri基础地址
+
+server:
+  servlet:
+    context-path: /spring-boot-learn
+
+
 

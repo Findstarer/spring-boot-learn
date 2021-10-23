@@ -22,6 +22,7 @@ public class SwaggerConfig {
     public Docket createRestApi() {
         //返回文档摘要信息
         return new Docket(DocumentationType.OAS_30)
+                .groupName("user")
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.findstar.springbootlearn.controller"))

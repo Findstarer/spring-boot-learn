@@ -47,11 +47,12 @@ Log4j建议只使用四个级别，优先级从高到低分别是ERROR、WARN、
 （1）直接引入：
 
 ```xml
+
 <dependency>
-  <groupId>org.springframework.boot</groupId>
-  <artifactId>spring-boot-starter-logging</artifactId>
-  <version>2.1.11.RELEASE</version>
-  <scope>compile</scope>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-logging</artifactId>
+    <version>2.1.11.RELEASE</version>
+    <scope>compile</scope>
 </dependency>
 ```
 
@@ -197,23 +198,36 @@ logging:
 
     <!--配置固定窗口模式生成日志文件，当文件大于5MB时，生成新的日志文件。窗口大小是1到3，当保存了3个归档文件后，将覆盖最早的日志。-->
     <appender name="FILE-WITH-WINDOW" class="ch.qos.logback.core.rolling.RollingFileAppender">
-　　　　　　<file>test.log</file>
+        　　　　　　
+        <file>test.log</file>
 
-　　　　　　<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-　　　　　　　　　　<fileNamePattern>tests.%i.log.zip</fileNamePattern>
-　　　　　　　　　　<minIndex>1</minIndex>
-　　　　　　　　　　<maxIndex>3</maxIndex>
-　　　　　　</rollingPolicy>
+        　　　　　　
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            　　　　　　　　　　
+            <fileNamePattern>tests.%i.log.zip</fileNamePattern>
+            　　　　　　　　　　
+            <minIndex>1</minIndex>
+            　　　　　　　　　　
+            <maxIndex>3</maxIndex>
+            　　　　　　
+        </rollingPolicy>
 
-　　　　　　<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-　　　　　　　　　　<maxFileSize>5MB</maxFileSize>
-　　　　　　</triggeringPolicy>
-　　　　　　<encoder>
-　　　　　　　　　<pattern>${pattern}</pattern>
-　　　　　　</encoder>
-　　　</appender>
+        　　　　　　
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            　　　　　　　　　　
+            <maxFileSize>5MB</maxFileSize>
+            　　　　　　
+        </triggeringPolicy>
+        　　　　　　
+        <encoder>
+            　　　　　　　　　
+            <pattern>${pattern}</pattern>
+            　　　　　　
+        </encoder>
+        　　　
+    </appender>
 
-    
+
     <!--子节点<logger>：用来设置某一个包或具体的某一个类的日志打印级别、以及指定<appender>。-->
     <!--<logger>有name,level和additivity三个属性。 包含零个或多个<appender-ref>元素，标识这个appender将会添加到这个logger-->
     <!--<name>: 指定受此logger约束的某一个包或者具体的某一个类。-->
@@ -233,7 +247,7 @@ logging:
         <appender-ref ref="CONSOLE-WITH-COLOR"/>
         <appender-ref ref="ROLLING-FILE"/>
     </root>
-    
+
 </configuration>
 
 ```
@@ -245,11 +259,11 @@ logging:
 - https://www.section.io/engineering-education/how-to-choose-levels-of-logging/
 - https://www.section.io/engineering-education/how-to-choose-levels-of-logging/
 
-
-
 ## Swagger 3.0
 
 官方网址：https://swagger.io/
+
+springdoc: https://springdoc.org/
 
 地址：http://localhost:8080/swagger-ui/index.html
 
@@ -269,6 +283,7 @@ logging:
 ### swagger代码配置：
 
 ```java
+
 @Component
 @EnableOpenApi
 public class SwaggerConfig {
@@ -296,20 +311,31 @@ public class SwaggerConfig {
 }
 ```
 
+### yaml配置
+
+```yaml
+# 增加swagger的uri基础地址
+springfox:
+  documentation:
+    swagger-ui:
+      base-url: /base-uri
+```
+
 ### Swagger常用注解
 
 #### @Api：
 
 用在请求的类上，表示对类的说明
 
-​	tags："说明该类的作用，可以在UI界面上看到的注解"
-​	
+​ tags："说明该类的作用，可以在UI界面上看到的注解"
+​
 
-​	value："该参数没什么意义，在UI界面上也看到，所以不需要配置"
+​ value："该参数没什么意义，在UI界面上也看到，所以不需要配置"
 
 Eg:
 
 ```java
+
 @Api(tags = "用户信息管理")
 @RestController
 @RequestMapping("userRecord")
@@ -318,110 +344,102 @@ public class UserRecordController extends ApiController {
 }
 ```
 
-
-
 #### @ApiOperation
 
 用在请求的方法上，说明方法的用途、作用
 
-​	value："说明方法的用途、作用"
+​ value："说明方法的用途、作用"
 
-​    notes："方法的备注说明"
+​ notes："方法的备注说明"
 
 eg:
 
 ```java
-		/**
-     * 分页查询所有数据
-     * @param page       分页对象
-     * @param userRecord 查询实体
-     * @return 所有数据
-     */
-    @ApiOperation("分页查询所有数据")
-    @GetMapping("page")
-    public R selectAll(Page<UserRecord> page, UserRecord userRecord) {
-        return success(this.userRecordService.page(page, new QueryWrapper<>(userRecord)));
-    }
+        /**
+ * 分页查询所有数据
+ * @param page       分页对象
+ * @param userRecord 查询实体
+ * @return 所有数据
+ */
+@ApiOperation("分页查询所有数据")
+@GetMapping("page")
+public R selectAll(Page<UserRecord> page,UserRecord userRecord){
+        return success(this.userRecordService.page(page,new QueryWrapper<>(userRecord)));
+        }
 ```
-
-
 
 #### @ApiImplicitParams：
 
 用在请求的方法上，表示一组参数说明
 
-​	@ApiImplicitParam：用在@ApiImplicitParams注解中，指定一个请求参数的各个方面
+​ @ApiImplicitParam：用在@ApiImplicitParams注解中，指定一个请求参数的各个方面
 
-​		name：参数名
+​ name：参数名
 
-​		value：参数的汉字说明、解释
+​ value：参数的汉字说明、解释
 
-​		required：参数是否必须传
+​ required：参数是否必须传
 
-​		paramType：参数放在哪个地方
+​ paramType：参数放在哪个地方
 
-​			header --> 请求参数的获取：@RequestHeader
+​ header --> 请求参数的获取：@RequestHeader
 
-​			query --> 请求参数的获取：@RequestParam
+​ query --> 请求参数的获取：@RequestParam
 
-​			path（用于restful接口）--> 请求参数的获取：@PathVariable
+​ path（用于restful接口）--> 请求参数的获取：@PathVariable
 
-​			div（不常用）
+​ div（不常用）
 
-​			form（不常用）   
+​ form（不常用）
 
-​	dataType(不建议使用)：参数类型，默认String，其它值dataType="Integer"     
+​ dataType(不建议使用)：参数类型，默认String，其它值dataType="Integer"
 
-​	dataTypeClass（建议使用）: 参数类型，通过class制定，建议使用这种方式指定
+​ dataTypeClass（建议使用）: 参数类型，通过class制定，建议使用这种方式指定
 
-​	defaultValue：参数的默认值
+​ defaultValue：参数的默认值
 
 Eg:
 
 ```java
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "managerName", value = "管理账号名", defaultValue = "root", 
-                          required = true, paramType = "header", dataTypeClass = String.class),
-        @ApiImplicitParam(name = "managerToken", value = "token", defaultValue = "123", 
-                          required = true, paramType = "header", dataTypeClass = String.class)
-    })
-    @PostMapping("/insert")
-    public SimpleResponse<String> insert(@RequestBody User user) throws JsonProcessingException {
+        @ApiImplicitParam(name = "managerName", value = "管理账号名", defaultValue = "root",
+                required = true, paramType = "header", dataTypeClass = String.class),
+        @ApiImplicitParam(name = "managerToken", value = "token", defaultValue = "123",
+                required = true, paramType = "header", dataTypeClass = String.class)
+})
+@PostMapping("/insert")
+public SimpleResponse<String> insert(@RequestBody User user)throws JsonProcessingException{
 
-        log.info("insert user: {}", mapper.writeValueAsString(user));
+        log.info("insert user: {}",mapper.writeValueAsString(user));
 
         return SimpleResponse.<String>builder().code(1).data("OK").build();
-    }
+        }
 ```
-
-
 
 #### @ApiResponses：
 
-​	用在请求的方法上，表示一组响应
+​ 用在请求的方法上，表示一组响应
 
-​	@ApiResponse：用在@ApiResponses中，描述http错的code
+​ @ApiResponse：用在@ApiResponses中，描述http错的code
 
-​		code：数字，例如200
+​ code：数字，例如200
 
-​		message：信息，例如"用户信息插入成功"
+​ message：信息，例如"用户信息插入成功"
 
 Eg:
 
 ```java
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "插入成功")
-    })
-    @PostMapping("/insert")
-    public SimpleResponse<String> insert(@RequestBody User user) throws JsonProcessingException {
+})
+@PostMapping("/insert")
+public SimpleResponse<String> insert(@RequestBody User user)throws JsonProcessingException{
 
-        log.info("insert user: {}", mapper.writeValueAsString(user));
+        log.info("insert user: {}",mapper.writeValueAsString(user));
 
         return SimpleResponse.<String>builder().code(1).data("OK").build();
-    }
+        }
 ```
-
-
 
 #### @ApiModel：
 
@@ -434,6 +452,7 @@ Eg:
 Eg:
 
 ```java
+
 @ApiModel("用户信息")
 @Data
 @Builder
@@ -449,23 +468,19 @@ public class User {
 
 ![截屏2021-10-06 下午6.25.21](/Users/wangjunjie/Projects/java-learn/spring-boot-learn/docs/photo/截屏2021-10-06 下午6.25.21.png)
 
-
-
 #### @ApiIgnore
 
 用在请求参数或者方法上，使用该注解忽略这个API或者某个请求参数
 
 ```java
-	@GetMapping("/select")
-    public SimpleResponse<User> selectByName(@RequestParam("name") String name, @RequestParam("sex") Sex sex,
-                                             @ApiIgnore("无用的参数") @RequestAttribute("unused_params") String unUsedParams) {
-        log.info("select name: {}, Sex: {}", name, sex.getDecs());
-        User user = User.builder().name(name).hometown("i don't known").build();
+    @GetMapping("/select")
+public SimpleResponse<User> selectByName(@RequestParam("name") String name,@RequestParam("sex") Sex sex,
+@ApiIgnore("无用的参数") @RequestAttribute("unused_params") String unUsedParams){
+        log.info("select name: {}, Sex: {}",name,sex.getDecs());
+        User user=User.builder().name(name).hometown("i don't known").build();
         return SimpleResponse.<User>builder().code(1).data(user).build();
-    }
+        }
 ```
-
-
 
 ## Mybatis-spring-boot
 
@@ -478,13 +493,13 @@ public class User {
 <dependency>
     <groupId>mysql</groupId>
     <artifactId>mysql-connector-java</artifactId>
-</dependency> 
+</dependency>
 
-<!-- mybatis -->
+        <!-- mybatis -->
 <dependency>
-    <groupId>org.mybatis.spring.boot</groupId>
-    <artifactId>mybatis-spring-boot-starter</artifactId>
-    <version>2.2.0</version>
+<groupId>org.mybatis.spring.boot</groupId>
+<artifactId>mybatis-spring-boot-starter</artifactId>
+<version>2.2.0</version>
 </dependency>
 ```
 
@@ -492,7 +507,7 @@ Spring-boot配置
 
 ```yaml
 spring:
-#  配置数据源
+  #  配置数据源
   datasource:
     url: jdbc:mysql://localhost:3306/ds_0?useUnicode=true&characterEncoding=utf8
     username: program
@@ -501,7 +516,7 @@ spring:
 
 mybatis:
   configuration:
-#    开启驼峰转换
+    #    开启驼峰转换
     map-underscore-to-camel-case: true
 ```
 
@@ -535,10 +550,6 @@ public interface UserMapper {
 
 mybatis无需在主程序上配置@MapperScan()
 
-
-
-
-
 ## SHARDING-JDBC
 
 参考文档：https://shardingsphere.apache.org/document/legacy/4.x/document/cn/quick-start/sharding-jdbc-quick-start/
@@ -546,6 +557,7 @@ mybatis无需在主程序上配置@MapperScan()
 ### 依赖
 
 ```xml
+
 <dependency>
     <groupId>org.apache.shardingsphere</groupId>
     <artifactId>sharding-jdbc-core</artifactId>
@@ -553,12 +565,62 @@ mybatis无需在主程序上配置@MapperScan()
 </dependency>
 ```
 
-
-
-
-
 ## Mybatis-plus
 
 参考链接：https://baomidou.com/guide/wrapper.html#select
 
 https://juejin.cn/post/6961721367846715428
+
+## 获取spring boot mvc 处理方法
+
+```java
+package com.findstar.springbootlearn.filter;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+ * @author : findStar
+ * @date : 2021/10/23 9:49 下午
+ */
+@Slf4j
+@Component
+public class MappingFilter extends OncePerRequestFilter {
+    @Autowired
+    private RequestMappingHandlerMapping handlerMapping;
+
+    private final ObjectMapper mapper = new ObjectMapper();
+
+
+    @SneakyThrows
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        #此处使用servletPath, servletPath对应代码中些的uri地址。
+        #当框架使用context - path时，requestURI = contextPath + servletPath，此时无法寻找到正确的处理方法
+        HandlerMethod method = handlerMapping.getHandlerMethods()
+                .get(RequestMappingInfo
+                        .paths(request.getServletPath())
+                        .methods(RequestMethod.valueOf(request.getMethod()))
+                        .build());
+        String simpleName = method != null ? method.getMethod().getName() : "";
+        log.info("uri : {}, ContextPath: {}, ServletPath: {}, method: {}",
+                request.getRequestURI(), request.getContextPath(), request.getServletPath(), simpleName);
+        filterChain.doFilter(request, response);
+    }
+}
+```
+
