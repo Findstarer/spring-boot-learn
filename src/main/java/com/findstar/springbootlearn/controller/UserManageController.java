@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.annotation.WebServlet;
 import java.util.List;
 
 /**
@@ -20,6 +21,7 @@ import java.util.List;
 @Api("用户管理接口")
 @RestController
 @RequestMapping("/user")
+@WebServlet()
 public class UserManageController {
 
     private final ObjectMapper mapper = new ObjectMapper();

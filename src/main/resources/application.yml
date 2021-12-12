@@ -1,5 +1,3 @@
-
-
 spring:
   #  配置数据源
   datasource:
@@ -8,6 +6,14 @@ spring:
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
+  web:
+    resources:
+      static-locations: ["classpath:/addition-static/"]
+
+  mvc:
+    message-codes-resolver-format: prefix_error_code
+#  mvc:
+#    static-path-pattern: "/resources/**"
 
 #  shardingsphere:
 #    datasource:
@@ -72,9 +78,10 @@ mybatis-plus:
 
 # 增加uri基础地址
 
-server:
-  servlet:
-    context-path: /spring-boot-learn
+#server:
+#  servlet:
+#    context-path: /spring-boot-learn
+
 
 
 

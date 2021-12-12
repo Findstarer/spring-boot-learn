@@ -327,10 +327,10 @@ springfox:
 
 用在请求的类上，表示对类的说明
 
-​ tags："说明该类的作用，可以在UI界面上看到的注解"
+ tags："说明该类的作用，可以在UI界面上看到的注解"
 ​
 
-​ value："该参数没什么意义，在UI界面上也看到，所以不需要配置"
+ value："该参数没什么意义，在UI界面上也看到，所以不需要配置"
 
 Eg:
 
@@ -348,9 +348,9 @@ public class UserRecordController extends ApiController {
 
 用在请求的方法上，说明方法的用途、作用
 
-​ value："说明方法的用途、作用"
+ value："说明方法的用途、作用"
 
-​ notes："方法的备注说明"
+ notes："方法的备注说明"
 
 eg:
 
@@ -372,31 +372,31 @@ public R selectAll(Page<UserRecord> page,UserRecord userRecord){
 
 用在请求的方法上，表示一组参数说明
 
-​ @ApiImplicitParam：用在@ApiImplicitParams注解中，指定一个请求参数的各个方面
+ @ApiImplicitParam：用在@ApiImplicitParams注解中，指定一个请求参数的各个方面
 
-​ name：参数名
+ name：参数名
 
-​ value：参数的汉字说明、解释
+ value：参数的汉字说明、解释
 
-​ required：参数是否必须传
+ required：参数是否必须传
 
-​ paramType：参数放在哪个地方
+ paramType：参数放在哪个地方
 
-​ header --> 请求参数的获取：@RequestHeader
+ header --> 请求参数的获取：@RequestHeader
 
-​ query --> 请求参数的获取：@RequestParam
+ query --> 请求参数的获取：@RequestParam
 
-​ path（用于restful接口）--> 请求参数的获取：@PathVariable
+ path（用于restful接口）--> 请求参数的获取：@PathVariable
 
-​ div（不常用）
+ div（不常用）
 
-​ form（不常用）
+ form（不常用）
 
-​ dataType(不建议使用)：参数类型，默认String，其它值dataType="Integer"
+ dataType(不建议使用)：参数类型，默认String，其它值dataType="Integer"
 
-​ dataTypeClass（建议使用）: 参数类型，通过class制定，建议使用这种方式指定
+ dataTypeClass（建议使用）: 参数类型，通过class制定，建议使用这种方式指定
 
-​ defaultValue：参数的默认值
+ defaultValue：参数的默认值
 
 Eg:
 
@@ -418,13 +418,13 @@ public SimpleResponse<String> insert(@RequestBody User user)throws JsonProcessin
 
 #### @ApiResponses：
 
-​ 用在请求的方法上，表示一组响应
+ 用在请求的方法上，表示一组响应
 
-​ @ApiResponse：用在@ApiResponses中，描述http错的code
+ @ApiResponse：用在@ApiResponses中，描述http错的code
 
-​ code：数字，例如200
+ code：数字，例如200
 
-​ message：信息，例如"用户信息插入成功"
+ message：信息，例如"用户信息插入成功"
 
 Eg:
 
@@ -571,7 +571,15 @@ mybatis无需在主程序上配置@MapperScan()
 
 https://juejin.cn/post/6961721367846715428
 
+
+
+
+
+
+
 ## 获取spring boot mvc 处理方法
+
+相关知识点：spring boot 中requestURL，requestContextPath, servletPath的区别
 
 ```java
 package com.findstar.springbootlearn.filter;
@@ -624,3 +632,42 @@ public class MappingFilter extends OncePerRequestFilter {
 }
 ```
 
+
+
+
+
+# Spring boot 系统学习
+
+官网文档：https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features
+
+## Spring MVC
+
+Spring web mvc 文档：https://docs.spring.io/spring-framework/docs/5.3.12/reference/html/web.html#mvc
+
+
+
+
+
+#### MessageCodesResolver???
+
+
+
+
+
+## Spring Flux
+
+Spring web flux文档：https://docs.spring.io/spring-framework/docs/5.3.12/reference/html/web-reactive.html#spring-web-reactive
+
+
+
+
+
+
+
+
+
+# Servlet
+
+# tomcat
+
+集中于基础知识和基础框架结构，无需会使用原始的tomcat
